@@ -8,17 +8,14 @@
         source: pull
         tag: latest
 
-    - name: Stop any container using port 80
-      shell: "docker ps -q --filter 'publish=80' | xargs -r docker rm -f"
-
-    - name: Ensure specific service container is absent (by name)
+    - name: Stop and remove any existing app container
       docker_container:
-        name: "{{ selected_service }}-container"
+        name: my-running-app  
         state: absent
 
     - name: Run the selected service
       docker_container:
-        name: "{{ selected_service }}-container"
+        name: my-running-app  
         image: "noamjorno/{{ selected_service }}:latest"
         state: started
         ports:
